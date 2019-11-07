@@ -1,4 +1,5 @@
 import React from 'react'
+import Radium from 'radium'
 import './Person.css'
 
 // stateless/presentational/dumb component. have more of these than stateful components. 
@@ -14,4 +15,4 @@ const person = (props) => {
     )
 }
 
-export default person
+export default Radium(person)
