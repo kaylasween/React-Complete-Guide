@@ -50,20 +50,10 @@ class App extends Component {
       padding: '0.5rem'
     }
 
-    return (
-      // lowercase elements reserved for JSX native elements.
-      <div className="App">
-        <h1>Hi, I'm a React App!</h1>
-        <p>This is really working!</p>
-        {/* two ways to call switchNameHandler here */}
-        <button 
-          onClick={() => this.togglePersonsHandler()}
-          style={style}
-        >
-          Toggle Persons
-        </button>
-        { 
-          this.state.showPersons ?
+    let persons = null
+
+    if (this.state.showPersons) {
+      persons = (
         <div>
           <Person 
             name={this.state.persons[0].name} 
@@ -80,8 +70,23 @@ class App extends Component {
           <Person 
             name ={this.state.persons[2].name} 
             age={this.state.persons[2].age} />
-          </div> : null
-        }
+        </div> 
+      )
+    }
+
+    return (
+      // lowercase elements reserved for JSX native elements.
+      <div className="App">
+        <h1>Hi, I'm a React App!</h1>
+        <p>This is really working!</p>
+        {/* two ways to call switchNameHandler here */}
+        <button 
+          onClick={() => this.togglePersonsHandler()}
+          style={style}
+        >
+          Toggle Persons
+        </button>
+        {persons}
       </div>
     )
     // return React.createElement('div, {className: 'App'}, React.createElement('h1', null, 'Hi, I'm a React App!'));
