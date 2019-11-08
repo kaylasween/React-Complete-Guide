@@ -63,13 +63,12 @@ class App extends Component {
             clicked={this.deletePersonHandler}
             changed={this.nameChangedHandler} />
       )
-
-      
     }
     return (
       // lowercase elements reserved for JSX native elements.
         <div className={styles.App}>
           <Cockpit 
+              title={this.props.appTitle}
               showPersons={this.state.showPersons}
               persons={this.state.persons}
               clicked={this.togglePersonsHandler} />
