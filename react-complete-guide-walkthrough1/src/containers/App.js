@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import styles from './App.module.css'
 
-import Person from './Person/Person'
-import ErrorBoundary from './ErrorBoundary/ErrorBoundary'
+import Cockpit from '../components/Cockpit/Cockpit'
+import PersonList from '../components/PersonList/PersonList'
+// import ErrorBoundary from './ErrorBoundary/ErrorBoundary'
 
 
 // stateful, smart, container components. only few of these. clearer where changes should happen.
@@ -54,49 +55,24 @@ class App extends Component {
 
   render() {
     let persons = null
-    let btnClass = '';
 
     if (this.state.showPersons) {
       persons = (
-        <div>
-          {this.state.persons.map((person, index) => { 
-            return (
-            <ErrorBoundary key={person.id} >
-              <Person 
-                      name={person.name} 
-                      age={person.age} 
-                      click={() => this.deletePersonHandler(index)}
-                      changed={(event) => this.nameChangedHandler(event, person.id)} />
-            </ErrorBoundary>
-            )
-          })}
-        </div> 
+        <PersonList 
+            persons={this.state.persons}
+            clicked={this.deletePersonHandler}
+            changed={this.nameChangedHandler} />
       )
 
-      btnClass = styles.Red
+      
     }
-
-    const classes = []
-    
-    if(this.state.persons.length <= 2) {
-      classes.push(styles.red)
-    }
-    if(this.state.persons.length <= 1) {
-      classes.push(styles.bold)
-    }
-    
-
     return (
       // lowercase elements reserved for JSX native elements.
         <div className={styles.App}>
-          <h1>Hi, I'm a React App!</h1>
-          <p className={classes.join(' ')}>This is really working!</p>
-
-          <button className={btnClass}
-            onClick={() => this.togglePersonsHandler()}
-          >
-            Toggle Persons
-          </button>
+          <Cockpit 
+              showPersons={this.state.showPersons}
+              persons={this.state.persons}
+              clicked={this.togglePersonsHandler} />
           {persons}
         </div>
     )
