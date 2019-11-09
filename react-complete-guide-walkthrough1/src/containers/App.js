@@ -31,13 +31,23 @@ class App extends Component {
     return state
   }
 
-  //will be removed at some point
-  componentWillMount() {
-    console.log('[App.js] component will mount...')
-  }
+  //deprecated and will be removed at some point
+  // componentWillMount() {
+  //   console.log('[App.js] component will mount...')
+  // }
 
   componentDidMount() {
     console.log('[App.js] component did mount')
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('[App.js] should component update')
+    return true
+  }
+
+  //like fetching new data from server
+  componentDidUpdate() {
+    console.log('[App.js] component did update')
   }
 
   nameChangedHandler = (event, id) => {
