@@ -9,6 +9,13 @@ import PersonList from '../components/PersonList/PersonList'
 // stateful, smart, container components. only few of these. clearer where changes should happen.
 
 class App extends Component {
+
+  constructor(props){
+    super(props)
+    //this.state can be initialized in here too.
+    console.log('[App.js] inside constructor')
+  }
+
   state = {
     persons: [
       { id: 1, name: 'Max', age: 28 },
@@ -17,6 +24,20 @@ class App extends Component {
     ],
     someOtherState: 'some other value',
     showPersons: false
+  }
+
+  static getDerivedStateFromProps(props,state){
+    console.log('[App.js] get derived state. ', props)
+    return state
+  }
+
+  //will be removed at some point
+  componentWillMount() {
+    console.log('[App.js] component will mount...')
+  }
+
+  componentDidMount() {
+    console.log('[App.js] component did mount')
   }
 
   nameChangedHandler = (event, id) => {
@@ -54,6 +75,7 @@ class App extends Component {
   }
 
   render() {
+    console.log('[App.js] render')
     let persons = null
 
     if (this.state.showPersons) {
