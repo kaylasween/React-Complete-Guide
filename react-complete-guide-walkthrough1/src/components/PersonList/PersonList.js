@@ -14,7 +14,9 @@ class PersonList extends Component {
     
     shouldComponentUpdate(nextProps, nextState){
         console.log('[PersonList.js] should component update?')
-        return true
+        return nextProps.persons !== this.props.persons 
+        //reference types (arrays and objects) are stored in memory and we're looking at a pointer to that memory location
+        //have to be careful about this in the case of shallow comparisons
     }
 
     getSnapshotBeforeUpdate(prevProps, prevState){
