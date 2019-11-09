@@ -2,15 +2,29 @@ import React, { useEffect } from 'react'
 import styles from './Cockpit.module.css'
 
 const cockpit = (props) => {
-    //useState can be used instead of getDerivedState
+    //useState can be used instead of getDerivedStateFromProps
     useEffect(() => {
         console.log('[Cockpit.js] useEffect')
         //http request...
         //componentDidMount and componentDidUpdate in one method
-        setTimeout(() => {
+        const timer = setTimeout(() => {
             alert('something')
         }, 1000)
-    }, []) //props.persons if we want to rerun it when persons changes
+        return () => {
+            //runs before main useEffect function runs, and after the first render cycle.
+            console.log('[Cockpit.js] cleanup work in useEffect')
+            clearTimeout(timer)
+        }
+    }, []) //props.persons if we want to rerun it when persons changes empty array means it only runs the first time
+    //if you wanted component did mount you could just use useEffect with empty array as second argument.
+
+    useEffect(() => {
+        console.log('[Cockpit.js] second useEffect')
+        return () => {
+            //runs before main useEffect function runs, and after the first render cycle.
+            console.log('[Cockpit.js] cleanup work in second useEffect')
+        }
+    })
 
     const classes = []
     let btnClass = '';
