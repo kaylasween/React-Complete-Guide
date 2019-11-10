@@ -3,6 +3,7 @@ import styles from './App.module.css'
 
 import Cockpit from '../components/Cockpit/Cockpit'
 import PersonList from '../components/PersonList/PersonList'
+import WithClass from '../hoc/WithClass'
 // import ErrorBoundary from './ErrorBoundary/ErrorBoundary'
 
 
@@ -99,7 +100,7 @@ class App extends Component {
     }
     return (
       // lowercase elements reserved for JSX native elements.
-        <div className={styles.App}>
+        <WithClass classes={styles.App}>
           <button onClick={() => {this.setState({ showCockpit: false })}}>Remove Cockpit</button>
           { this.state.showCockpit ? <Cockpit 
               title={this.props.appTitle}
@@ -107,7 +108,7 @@ class App extends Component {
               personsLength={this.state.persons.length}
               clicked={this.togglePersonsHandler} /> : null }
           {persons}
-        </div>
+        </WithClass>
     )
     // return React.createElement('div, {className: 'App'}, React.createElement('h1', null, 'Hi, I'm a React App!'));
   }
