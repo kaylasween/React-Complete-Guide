@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styles from './Person.module.css'
 
 import Aux from '../../../hoc/Aux'
+import withClass from '../../../hoc/withClass'
 
 // stateless/presentational/dumb component. have more of these than stateful components. 
 
@@ -28,4 +29,4 @@ class Person extends Component {
     
 }
 
-export default Person
+export default withClass(Person, styles.Person)
