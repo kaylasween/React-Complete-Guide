@@ -1,19 +1,23 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import styles from './Cockpit.module.css'
 
 const cockpit = (props) => {
+    const toggleBtnRef = useRef(null)
+
     //useState can be used instead of getDerivedStateFromProps
     useEffect(() => {
         console.log('[Cockpit.js] useEffect')
         //http request...
         //componentDidMount and componentDidUpdate in one method
-        const timer = setTimeout(() => {
-            alert('something')
-        }, 1000)
+        // const timer = setTimeout(() => {
+        //     alert('something')
+        // }, 1000)
+
+        toggleBtnRef.current.click()
         return () => {
             //runs before main useEffect function runs, and after the first render cycle.
             console.log('[Cockpit.js] cleanup work in useEffect')
-            clearTimeout(timer)
+            // clearTimeout(timer)
         }
     }, []) //props.persons if we want to rerun it when persons changes empty array means it only runs the first time
     //if you wanted component did mount you could just use useEffect with empty array as second argument.
@@ -45,8 +49,10 @@ const cockpit = (props) => {
             <h1>{props.title}</h1>
             <p className={classes.join(' ')}>This is really working!</p>
 
-            <button className={btnClass}
+            <button 
+                className={btnClass}
                 onClick={props.clicked}
+                ref={toggleBtnRef}
             >
                 Toggle Persons
             </button>
