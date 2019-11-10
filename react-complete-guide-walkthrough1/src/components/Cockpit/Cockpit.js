@@ -33,10 +33,10 @@ const cockpit = (props) => {
         btnClass = styles.Red
     }
 
-    if(props.persons.length <= 2) {
+    if(props.personsLength <= 2) {
       classes.push(styles.red)
     }
-    if(props.persons.length <= 1) {
+    if(props.personsLength <= 1) {
       classes.push(styles.bold)
     }
 
@@ -54,4 +54,4 @@ const cockpit = (props) => {
     )
 }
 
-export default cockpit
+export default React.memo(cockpit) //wrap with React.memo() if this functional component may not need update with every render

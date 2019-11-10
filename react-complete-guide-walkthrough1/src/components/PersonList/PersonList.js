@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import Person from './Person/Person'
 
-class PersonList extends Component {
+class PersonList extends PureComponent {
     // static getDerivedStateFromProps(props, state){
     //     console.log('[PersonList.js] get derived state from props')
     //     return state
@@ -12,12 +12,12 @@ class PersonList extends Component {
     //     console.log('[PersonList.js] person will receive props', props)
     // }
     
-    shouldComponentUpdate(nextProps, nextState){
-        console.log('[PersonList.js] should component update?')
-        return nextProps.persons !== this.props.persons 
-        //reference types (arrays and objects) are stored in memory and we're looking at a pointer to that memory location
-        //have to be careful about this in the case of shallow comparisons
-    }
+    // shouldComponentUpdate(nextProps, nextState){
+    //     console.log('[PersonList.js] should component update?')
+    //     return nextProps.persons !== this.props.persons || nextProps.changed !== this.props.changed || nextProps.clicked !== this.props.clicked
+    //     //reference types (arrays and objects) are stored in memory and we're looking at a pointer to that memory location
+    //     //have to be careful about this in the case of shallow comparisons
+    // }
 
     getSnapshotBeforeUpdate(prevProps, prevState){
         console.log('[PersonList.js] get snapshot before update')
