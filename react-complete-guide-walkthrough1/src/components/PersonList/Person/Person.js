@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styles from './Person.module.css'
 
+import AuthContext from '../../../context/auth-context'
 import Aux from '../../../hoc/Aux'
 import withClass from '../../../hoc/withClass'
 
@@ -29,7 +30,9 @@ class Person extends Component {
             // <div className={styles.Person}>
             //<React.Fragment>
             <> 
-                {this.props.isAuth ? <p>Authenticated</p> : <p>Please log in.</p>}
+                <AuthContext.Consumer>
+                    {(context) => context.authenticated ? <p>Authenticated</p> : <p>Please log in.</p>}
+                </AuthContext.Consumer>
                 {/* can pass method as props */}
                 <p onClick={this.props.click}>I'm {this.props.name} and I am {this.props.age} years old!</p>
                 <p>{this.props.children}</p>
