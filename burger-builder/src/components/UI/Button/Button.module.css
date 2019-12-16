@@ -16,9 +16,21 @@
 }
 
 .success {
-  color: #5C9210;
+  background-color: #5C9210;
+  color: black;
 }
 
 .danger {
-  color: #944317;
+  background-color: #944317;
+  color: white;
+}
+
+.cta {
+  background-color: darkblue;
+  color: white;
+}
+
+.cancel {
+  background-color: lightgray;
+  color: black;
 }
