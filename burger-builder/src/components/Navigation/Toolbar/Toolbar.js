@@ -3,10 +3,11 @@ import styles from './Toolbar.module.css'
 
 import Logo from '../../Logo/Logo'
 import NavigationItems from '../NavigationItems/NavigationItems'
+import SideDrawer from '../SideDrawer/SideDrawer'
 
 const toolbar = (props) => (
   <header className={styles.toolbar}>
-    <div>MENU</div>
+    <SideDrawer />
     <Logo />
     <nav>
       <NavigationItems />
