@@ -7,9 +7,10 @@ import SideDrawer from '../SideDrawer/SideDrawer'
 
 const toolbar = (props) => (
   <header className={styles.toolbar}>
+    <div>MENU</div>
     <SideDrawer />
     <Logo height="80%" />
-    <nav>
+    <nav className={styles.desktop}>
       <NavigationItems />
     </nav>
   </header>
