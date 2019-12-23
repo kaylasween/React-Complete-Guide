@@ -8,7 +8,7 @@ import SideDrawer from '../SideDrawer/SideDrawer'
 
 const toolbar = (props) => (
   <header className={styles.toolbar}>
-    <MenuToggle open={props.openSideDrawer} />
+    <MenuToggle toggle={props.toggleSideDrawer} />
     <SideDrawer />
     <Logo height="80%" />
     <nav className={styles.desktop}>
