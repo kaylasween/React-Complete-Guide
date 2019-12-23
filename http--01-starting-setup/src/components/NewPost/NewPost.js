@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-import './NewPost.css';
+import './NewPost.css'
 
 class NewPost extends Component {
     state = {
@@ -24,8 +24,8 @@ class NewPost extends Component {
                 </select>
                 <button>Add Post</button>
             </div>
-        );
+        )
     }
 }
 
-export default NewPost;
+export default NewPost
