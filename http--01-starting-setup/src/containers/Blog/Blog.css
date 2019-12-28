@@ -1,7 +1,9 @@
-.Posts {
+nav ul li {
+  list-style: none;
   display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  width: 80%;
-  margin: auto;
+}
+
+.active {
+  background-color: yellow;
+  border: 1px solid black;
 }
