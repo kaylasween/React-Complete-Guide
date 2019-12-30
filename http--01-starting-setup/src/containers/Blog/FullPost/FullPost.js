@@ -10,11 +10,20 @@ class FullPost extends Component {
 
   componentDidMount() {
     console.log(this.props)
+    this.loadData()
+  }
+
+  componentDidUpdate() {
+    this.loadData()
+  }
+
+  loadData() {
     if (this.props.match.params.id) {
       //so it doesn't make infinite requests.
       if (
         !this.state.loadedPost ||
-        (this.state.loadedPost && this.state.loadedPost.id !== this.props.id)
+        (this.state.loadedPost &&
+          this.state.loadedPost.id !== +gthis.props.match.params.id)
       )
         axios.get('/posts/' + this.props.match.params.id).then(response => {
           this.setState({ loadedPost: response.data })
