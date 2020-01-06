@@ -1,0 +1,22 @@
+.contactData {
+  margin: auto;
+  width: 60%;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  box-shadow: 0 2px 3px #ccc;
+  box-sizing: border-box;
+  padding: 1rem;
+}
+
+.contactData h2 {
+  text-align: center;
+}
+
+.contactData input {
+  display: block;
+}
+
+.contactData label {
+  font-weight: bold;
+  display: block;
+}
