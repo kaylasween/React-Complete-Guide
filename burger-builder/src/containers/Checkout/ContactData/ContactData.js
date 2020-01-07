@@ -83,9 +83,12 @@ class ContactData extends Component {
           options: ['fastest', 'cheapest']
         },
         value: '',
+        validation: {},
+        valid: true,
         label: 'Delivery Method'
       },
     },
+    formValid: false,
     loading: false
   }
 
@@ -118,6 +121,9 @@ class ContactData extends Component {
 
   checkValidatity(value, rules) {
     let valid = true
+
+    //could also add a check for true instead of adding empty validation to delivery methods
+
     if (rules.required) {
       valid = value.trim() !== '' && valid
     }
@@ -141,8 +147,13 @@ class ContactData extends Component {
     updatedFormElement.valid = this.checkValidatity(updatedFormElement.value, updatedFormElement.validation)
     updatedFormElement.touched = true
     updatedOrderForm[inputId] = updatedFormElement
-    console.log(updatedFormElement)
-    this.setState({ orderForm: updatedOrderForm })
+
+    let formValid = true
+    for (let inputId in updatedOrderForm) {
+      formValid = updatedOrderForm[inputId].valid && formValid
+    }
+
+    this.setState({ orderForm: updatedOrderForm, formValid: formValid })
   }
 
   render() {
@@ -175,9 +186,9 @@ class ContactData extends Component {
                   changed={(event) => this.inputChangedHandler(event, formEl.id)} />
               ))}
 
-              <Button buttonType="cta" clicked={this.orderHandler}>
+              <Button buttonType="cta" clicked={this.orderHandler} disabled={!this.state.formValid}>
                 ORDER
-            </Button>
+              </Button>
             </form>
           )}
       </div>

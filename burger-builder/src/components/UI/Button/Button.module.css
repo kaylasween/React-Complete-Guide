@@ -16,7 +16,7 @@
 }
 
 .success {
-  background-color: #5C9210;
+  background-color: #5c9210;
   color: black;
 }
 
@@ -33,4 +33,9 @@
 .cancel {
   background-color: lightgray;
   color: black;
+}
+
+[disabled] {
+  background-color: grey;
+  cursor: not-allowed;
 }
