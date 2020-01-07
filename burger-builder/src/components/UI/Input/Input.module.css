@@ -24,3 +24,12 @@
 .inputElement:focus {
   outline: 4px solid #40a4c8;
 }
+
+.invalid {
+  outline: 4px solid red;
+  background-color: rgb(252, 178, 169);
+}
+
+.invalid:after {
+  content: "/274C";
+}
