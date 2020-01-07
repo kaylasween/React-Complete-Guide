@@ -4,15 +4,60 @@ import axios from '../../../axios-orders'
 import styles from './ContactData.module.css'
 
 import Button from '../../../components/UI/Button/Button'
+import Input from '../../../components/UI/Input/Input'
 import Spinner from '../../../components/UI/Spinner/Spinner'
 
 class ContactData extends Component {
   state = {
-    name: '',
-    email: '',
-    address: {
-      street: '',
-      postalCode: ''
+    orderForm: {
+      name: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'text'
+        },
+        value: '',
+        label: 'Name'
+      },
+      address: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'text'
+        },
+        value: '',
+        label: 'Street Address'
+      },
+      zip: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'text'
+        },
+        value: '',
+        label: 'Postal Code'
+      },
+      country: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'text'
+        },
+        value: '',
+        label: 'Country'
+      },
+      email: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'email'
+        },
+        value: '',
+        label: 'Email Address'
+      },
+      deliveryMethod: {
+        elementType: 'select',
+        elementConfig: {
+          options: ['fastest', 'cheapest']
+        },
+        value: '',
+        label: 'Delivery Method'
+      },
     },
     loading: false
   }
@@ -21,17 +66,16 @@ class ContactData extends Component {
     event.preventDefault()
     this.setState({ loading: true })
 
+    const formData = {}
+
+    for (let formElId in this.state.orderForm) {
+      formData[formElId] = this.state.orderForm[formElId].value
+    }
+
     const order = {
       ingredients: this.props.ingredients,
       price: this.props.price,
-      customer: {
-        name: 'Kayla',
-        address: '123 Test Street',
-        zip: '12345',
-        country: 'USA'
-      },
-      email: 'test@test.com',
-      deliveryMethod: 'fastest'
+      orderData: formData
     }
 
     axios
@@ -45,22 +89,45 @@ class ContactData extends Component {
       })
   }
 
+  inputChangedHandler = (event, inputId) => {
+    const updatedOrderForm = {
+      ...this.state.orderForm
+    }
+    const updatedFormElement = {
+      ...updatedOrderForm[inputId]
+    }
+    updatedFormElement.value = event.target.value
+    updatedOrderForm[inputId] = updatedFormElement
+    this.setState({ orderForm: updatedOrderForm })
+  }
+
   render() {
+    const formElements = []
+    for (let key in this.state.orderForm) {
+      formElements.push({
+        id: key,
+        config: this.state.orderForm[key]
+      })
+    }
+
     return (
       <div className={styles.contactData}>
         <h2>Enter your contact data</h2>
         {this.state.loading ? (
           <Spinner />
         ) : (
-            <form>
-              <label htmlFor="name">Name</label>
-              <input id="name" type="text" />
-              <label htmlFor="email">Email</label>
-              <input id="email" type="email" />
-              <label htmlFor="address">Street Address</label>
-              <input id="address" type="text" />
-              <label htmlFor="zip">Postal Code</label>
-              <input id="zip" type="text" />
+            <form onSubmit={this.orderHandler}>
+              {formElements.map(formEl => (
+                <Input
+                  key={formEl.id}
+                  elementType={formEl.config.elementType}
+                  elementConfig={formEl.config.elementConfig}
+                  id={formEl.id}
+                  value={formEl.config.value}
+                  label={formEl.config.label}
+                  changed={(event) => this.inputChangedHandler(event, formEl.id)} />
+              ))}
+
               <Button buttonType="cta" clicked={this.orderHandler}>
                 ORDER
             </Button>
