@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/actionTypes'
+import { updateObject } from '../utility'
 
 const initialState = {
   results: []
@@ -6,10 +7,9 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   if (action.type === actionTypes.STORE_RESULT) {
-    return {
-      ...state,
+    return updateObject(state, {
       results: state.results.concat({ value: action.result, id: new Date() }) //don't use push() to avoid mutating the original array
-    }
+    })
   }
   if (action.type === actionTypes.DELETE_RESULT) {
     // const id = 2
@@ -17,10 +17,7 @@ const reducer = (state = initialState, action) => {
     // newArray.splice(id, 1)
 
     const newArray = state.results.filter((element) => element.id !== action.resultId)
-    return {
-      ...state,
-      results: newArray
-    }
+    return updateObject(state, { results: newArray })
   }
   return state
 }
