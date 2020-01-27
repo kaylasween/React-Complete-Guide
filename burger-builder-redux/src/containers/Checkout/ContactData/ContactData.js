@@ -92,8 +92,7 @@ class ContactData extends Component {
         label: 'Delivery Method'
       },
     },
-    formValid: false,
-    loading: false
+    formValid: false
   }
 
   orderHandler = event => {
@@ -163,7 +162,7 @@ class ContactData extends Component {
     return (
       <div className={styles.contactData}>
         <h2>Enter your contact data</h2>
-        {this.state.loading ? (
+        {this.props.loading ? (
           <Spinner />
         ) : (
             <form onSubmit={this.orderHandler}>
@@ -194,14 +193,15 @@ class ContactData extends Component {
 const mapStateToProps = (state) => {
   return {
     ings: state.ingredients,
-    price: state.totalPrice
+    price: state.totalPrice,
+    loading: state.loading
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onOrderBurger: (orderData) => dispatch(actions.purchaseBurgerStart(orderData))
+    onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData))
   }
 }
 
-export default connect(mapStateToProps)(withErrorHandler(ContactData, axios))
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios))
