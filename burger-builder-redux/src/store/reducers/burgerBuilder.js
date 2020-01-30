@@ -1,4 +1,5 @@
 import * as actionType from '../actions/actionTypes'
+import { updateObject } from '../utility'
 
 const initialState = {
   ingredients: null,
@@ -16,30 +17,26 @@ const INGREDIENT_PRICES = {
 
 const reducer = (state = initialState, action) => {
   if (action.type === actionType.ADD_INGREDIENT) {
-    return {
-      ...state,
-      ingredients: {
-        ...state.ingredients,
-        [action.ingredientName]: state.ingredients[action.ingredientName] + 1
-      },
+    const updatedIngredients = updateObject(state.ingredients, { [action.ingredientName]: state.ingredients[action.ingredientName] + 1 })
+    return updateObject(state, {
+      ingredients: updatedIngredients,
       totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName]
-    }
+    })
   }
 
   if (action.type === actionType.REMOVE_INGREDIENT) {
-    return {
-      ...state,
-      ingredients: {
-        ...state.ingredients,
-        [action.ingredientName]: state.ingredients[action.ingredientName] - 1
-      },
+    //can also break it up over more lines.
+    const updatedIngredient = { [action.ingredientName]: state.ingredients[action.ingredientName] - 1 }
+    const updatedIngredients = updateObject(state.ingredients, updatedIngredient)
+    const updatedState = {
+      ingredients: updatedIngredients,
       totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName]
     }
+    return updateObject(state, updatedState)
   }
 
   if (action.type === actionType.SET_INGREDIENTS) {
-    return {
-      ...state,
+    return updateObject(state, {
       ingredients: {
         veg: action.ingredients.veg,
         bacon: action.ingredients.bacon,
@@ -48,14 +45,11 @@ const reducer = (state = initialState, action) => {
       },
       totalPrice: initialState.totalPrice,
       error: false
-    }
+    })
   }
 
   if (action.type === actionType.FETCH_INGREDIENTS_FAILED) {
-    return {
-      ...state,
-      error: true
-    }
+    return updateObject(state, { error: true })
   }
 
   return state
