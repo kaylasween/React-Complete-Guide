@@ -16,6 +16,9 @@ const INGREDIENT_PRICES = {
 }
 
 const reducer = (state = initialState, action) => {
+  //could also change all of these to switch, of course.
+  //and could make all of these separate functions to make switch cases even leaner.
+
   if (action.type === actionType.ADD_INGREDIENT) {
     const updatedIngredients = updateObject(state.ingredients, { [action.ingredientName]: state.ingredients[action.ingredientName] + 1 })
     return updateObject(state, {
