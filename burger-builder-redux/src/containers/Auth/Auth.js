@@ -37,7 +37,8 @@ class Auth extends Component {
         valid: false,
         touched: false
       },
-    }
+    },
+    isSignUp: true
   }
 
   checkValidatity(value, rules) {
@@ -72,7 +73,13 @@ class Auth extends Component {
 
   submitHandler = (event) => {
     event.preventDefault()
-    this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value)
+    this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value, this.state.isSignUp)
+  }
+
+  switchAuthModeHandler = () => {
+    this.setState(prevState => {
+      return { isSignUp: !prevState.isSignUp }
+    })
   }
 
   render() {
@@ -97,18 +104,23 @@ class Auth extends Component {
         changed={(event) => this.inputChangedHandler(event, formElement.id)} />
     ))
     return (
-      <form className={styles.auth} onSubmit={this.submitHandler}>
-        <h2>Sign in/Sign up</h2>
-        {form}
-        <Button buttonType="cta">Submit</Button>
-      </form>
+      <div className={styles.auth}>
+        <form onSubmit={this.submitHandler}>
+          <h2>Sign in/Sign up</h2>
+          {form}
+          <Button buttonType="cta">Submit</Button>
+
+        </form>
+        {/* Temporary button to switch between sign up and sign in */}
+        <Button buttonType="cancel" clicked={this.switchAuthModeHandler}>Switch to Sign {this.state.isSignUp ? 'in' : 'up'}</Button>
+      </div>
     )
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAuth: (email, password) => dispatch(actions.auth(email, password))
+    onAuth: (email, password, isSignUp) => dispatch(actions.auth(email, password, isSignUp))
   }
 }
 
