@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Input from '../../components/UI/Input/Input'
 import Button from '../../components/UI/Button/Button'
+import Spinner from '../../components/UI/Spinner/Spinner'
 import * as actions from '../../store/actions/index'
 
 import styles from './Auth.module.css'
@@ -105,16 +106,23 @@ class Auth extends Component {
     ))
     return (
       <div className={styles.auth}>
+        {this.props.error ? (<div style={{ border: '1px solid darkred', background: 'salmon', padding: '10px' }}>{this.props.error.message}</div>) : null}
         <form onSubmit={this.submitHandler}>
           <h2>Sign in/Sign up</h2>
-          {form}
+          {this.props.loading ? <Spinner /> : form}
           <Button buttonType="cta">Submit</Button>
-
         </form>
         {/* Temporary button to switch between sign up and sign in */}
         <Button buttonType="cancel" clicked={this.switchAuthModeHandler}>Switch to Sign {this.state.isSignUp ? 'in' : 'up'}</Button>
       </div>
     )
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    loading: state.auth.loading,
+    error: state.auth.error
   }
 }
 
@@ -124,4 +132,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(Auth)
+export default connect(mapStateToProps, mapDispatchToProps)(Auth)

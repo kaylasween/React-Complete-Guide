@@ -15,7 +15,7 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.AUTH_SUCCESS:
       return updateObject(state, {
-        token: action.tokenId,
+        token: action.idToken,
         userId: action.userId,
         error: null,
         loading: false
