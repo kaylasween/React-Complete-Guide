@@ -8,7 +8,7 @@ import NavigationItems from '../NavigationItems/NavigationItems'
 
 const sideDrawer = (props) => {
   let styleClasses = [styles.sideDrawer, styles.close]
-  if(props.open){
+  if (props.open) {
     styleClasses = [styles.sideDrawer, styles.open]
   }
   return (
@@ -16,8 +16,8 @@ const sideDrawer = (props) => {
       <Backdrop clicked={props.close} show={props.open} />
       <div className={styleClasses.join(' ')}>
         <Logo height="10vh" />
-        <nav style={{ marginTop: '1rem'}}>
-          <NavigationItems />
+        <nav style={{ marginTop: '1rem' }}>
+          <NavigationItems isAuthenticated={props.isAuth} />
         </nav>
       </div>
     </>

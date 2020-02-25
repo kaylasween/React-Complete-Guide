@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
 import styles from './Layout.module.css'
 
@@ -11,23 +12,29 @@ class Layout extends Component {
   }
 
   sideDrawerToggleHandler = () => {
-    this.setState((previousState) => { 
+    this.setState((previousState) => {
       return { showSideDrawer: !previousState.showSideDrawer }
     })
   }
 
-  render(){
+  render() {
     return (
       <>
-        <Toolbar toggleSideDrawer={this.sideDrawerToggleHandler} />
-        <SideDrawer close={this.sideDrawerToggleHandler} open={this.state.showSideDrawer} />
+        <Toolbar isAuth={this.props.isAuthenticated} toggleSideDrawer={this.sideDrawerToggleHandler} />
+        <SideDrawer isAuth={this.props.isAuthenticated} close={this.sideDrawerToggleHandler} open={this.state.showSideDrawer} />
         <main className={styles.content}>
           {this.props.children}
         </main>
       </>
     )
   }
-  
+
 }
 
-export default Layout
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.auth.token !== null
+  }
+}
+
+export default connect(mapStateToProps)(Layout)

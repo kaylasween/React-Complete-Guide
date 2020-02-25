@@ -12,7 +12,7 @@ const toolbar = (props) => (
     <SideDrawer />
     <Logo height="80%" />
     <nav className={styles.desktop}>
-      <NavigationItems />
+      <NavigationItems isAuthenticated={props.isAuth} />
     </nav>
   </header>
 )
