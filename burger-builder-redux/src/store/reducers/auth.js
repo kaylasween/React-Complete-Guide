@@ -5,10 +5,15 @@ const initialState = {
   token: null,
   userId: null,
   error: null,
-  loading: false
+  loading: false,
+  authRedirectPath: '/'
 }
 
 const reducer = (state = initialState, action) => {
+  /*
+    again, can split these out into separate functions to above the 
+    reducer to make the switch/case statement a little leaner.
+  */
   switch (action.type) {
     case actionTypes.AUTH_START:
       return updateObject(state, { error: null, loading: true })
@@ -31,6 +36,11 @@ const reducer = (state = initialState, action) => {
       return updateObject(state, {
         token: null,
         userId: null
+      })
+
+    case actionTypes.SET_AUTH_REDIRECT_PATH:
+      return updateObject(state, {
+        authRedirectPath: action.path
       })
 
     default:
