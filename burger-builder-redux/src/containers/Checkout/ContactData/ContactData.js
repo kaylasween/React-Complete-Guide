@@ -10,7 +10,7 @@ import Spinner from '../../../components/UI/Spinner/Spinner'
 
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
 import * as actions from '../../../store/actions/index'
-import { updateObject } from '../../../shared/utility'
+import { checkValidity, updateObject } from '../../../shared/utility'
 
 class ContactData extends Component {
   state = {
@@ -115,28 +115,11 @@ class ContactData extends Component {
     this.props.onOrderBurger(order, this.props.token)
   }
 
-  checkValidatity(value, rules) {
-    let valid = true
-
-    //could also add a check for true instead of adding empty validation to delivery methods
-
-    if (rules.required) {
-      valid = value.trim() !== '' && valid
-    }
-    if (rules.minLength) {
-      valid = value.length >= rules.minLength && valid
-    }
-    if (rules.maxLength) {
-      valid = value.length <= rules.maxLength && valid
-    }
-    return valid
-  }
-
   inputChangedHandler = (event, inputId) => {
 
     const updatedFormElement = updateObject(this.state.orderForm[inputId], {
       value: event.target.value,
-      valid: this.checkValidatity(event.target.value, this.state.orderForm[inputId].validation),
+      valid: checkValidity(event.target.value, this.state.orderForm[inputId].validation),
       touched: true
     })
 

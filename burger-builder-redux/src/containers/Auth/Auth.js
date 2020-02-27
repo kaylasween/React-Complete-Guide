@@ -6,7 +6,7 @@ import Input from '../../components/UI/Input/Input'
 import Button from '../../components/UI/Button/Button'
 import Spinner from '../../components/UI/Spinner/Spinner'
 import * as actions from '../../store/actions/index'
-import { updateObject } from '../../shared/utility'
+import { checkValidity, updateObject } from '../../shared/utility'
 
 import styles from './Auth.module.css'
 
@@ -51,28 +51,11 @@ class Auth extends Component {
     }
   }
 
-  checkValidatity(value, rules) {
-    let valid = true
-
-    //could also add a check for true instead of adding empty validation to delivery methods
-
-    if (rules.required) {
-      valid = value.trim() !== '' && valid
-    }
-    if (rules.minLength) {
-      valid = value.length >= rules.minLength && valid
-    }
-    if (rules.maxLength) {
-      valid = value.length <= rules.maxLength && valid
-    }
-    return valid
-  }
-
   inputChangedHandler = (event, controlName) => {
     const updatedAuthForm = updateObject(this.state.controls, {
       [controlName]: updateObject(this.state.controls[controlName], {
         value: event.target.value,
-        valid: this.checkValidatity(event.target.value, this.state.controls[controlName].validation),
+        valid: checkValidity(event.target.value, this.state.controls[controlName].validation),
         touched: true
       })
     })
