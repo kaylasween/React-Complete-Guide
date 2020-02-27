@@ -19,9 +19,11 @@ class App extends Component {
     let routes = (
       <>
         <Route path="/auth" component={Auth} />
-        <Route path="/" component={BurgerBuilder} />
+        <Route path="/" exact component={BurgerBuilder} />
+        <Redirect to="/" />
       </>
     )
+
     if (this.props.isAuthenticated) {
       routes = (
         <>
@@ -29,7 +31,8 @@ class App extends Component {
           <Route path="/orders" component={Orders} />
           <Route path="/auth" component={Auth} />
           <Route path="/logout" component={Logout} />
-          <Route path="/" component={BurgerBuilder} />
+          <Route path="/" exact component={BurgerBuilder} />
+          <Redirect to="/" />
         </>
       )
     }
@@ -40,7 +43,6 @@ class App extends Component {
           <Layout>
             <Switch>
               {routes}
-              <Redirect to="/" />
             </Switch>
           </Layout>
         </div>
