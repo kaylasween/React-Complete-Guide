@@ -11,7 +11,7 @@ import registerServiceWorker from './registerServiceWorker'
 import orderReducer from './store/reducers/order'
 import authReducer from './store/reducers/auth'
 
-const composeEnhancers = process.env.REACT_APP_NODE_ENV === "development" ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose
+const composeEnhancers = process.env.REACT_APP_NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose
 
 const rootReducer = combineReducers({
   burgerBuilder: burgerBuilderReducer,
@@ -19,7 +19,12 @@ const rootReducer = combineReducers({
   auth: authReducer
 })
 
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)))
+const store = createStore(rootReducer, composeEnhancers(
+  applyMiddleware(thunk)
+))
 
-ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'))
+ReactDOM.render((
+  <Provider store={store}>
+    <App />
+  </Provider>), document.getElementById('root'))
 registerServiceWorker()
