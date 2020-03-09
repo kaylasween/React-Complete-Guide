@@ -1,0 +1,17 @@
+{
+  "name": "webpack-module",
+  "version": "1.0.0",
+  "description": "Walking through webpack lesson",
+  "main": "index.js",
+  "author": "Kayla Sween",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+    "react-router": "^5.1.2",
+    "react-router-dom": "^5.1.2",
+    "webpack": "^4.42.0",
+    "webpack-dev-server": "^3.10.3"
+  }
+}
