@@ -1,0 +1,1 @@
+{"name":"next-walkthrough","version":"1.0.0","main":"index.js","scripts":{"dev":"next","build":"next build","start":"next start"},"license":"MIT","dependencies":{"next":"^9.3.0","react":"^16.13.0","react-dom":"^16.13.0"},"readme":"ERROR: No README data found!","_id":"next-walkthrough@1.0.0"}
