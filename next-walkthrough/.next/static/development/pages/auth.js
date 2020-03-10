@@ -989,7 +989,7 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
 
-var authIndexPage = function authIndexPage() {
+var authIndexPage = function authIndexPage(props) {
   return __jsx("div", {
     __source: {
       fileName: _jsxFileName,
@@ -1002,7 +1002,7 @@ var authIndexPage = function authIndexPage() {
       lineNumber: 7
     },
     __self: this
-  }, "The Auth Index Page"), __jsx(_components_User__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  }, "The Auth Index Page - ", props.appName), __jsx(_components_User__WEBPACK_IMPORTED_MODULE_1__["default"], {
     name: "Kayla",
     age: "27",
     __source: {
@@ -1011,6 +1011,17 @@ var authIndexPage = function authIndexPage() {
     },
     __self: this
   }));
+};
+
+authIndexPage.getInitialProps = function (context) {
+  var promise = new Promise(function (resolve, reject) {
+    setTimeout(function () {
+      resolve({
+        appName: 'Super App (auth)'
+      });
+    }, 1000);
+  });
+  return promise;
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (authIndexPage);
