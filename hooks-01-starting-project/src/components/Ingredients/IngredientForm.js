@@ -14,12 +14,13 @@ const IngredientForm = React.memo(props => {
   //   amount: ''
   // })
 
+  // these must be set on the root level (just inside) the functional component
   const [title, setTitle] = useState('')
   const [amount, setAmount] = useState('')
 
   const submitHandler = event => {
     event.preventDefault();
-    // ...
+    props.onAddIngredient({ title: title, amount: amount })
   }
 
   return (
