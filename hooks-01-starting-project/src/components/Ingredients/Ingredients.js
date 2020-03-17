@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import IngredientForm from './IngredientForm'
 import IngredientList from './IngredientList'
@@ -6,6 +6,27 @@ import Search from './Search'
 
 const Ingredients = () => {
   const [ingredients, setIngredients] = useState([])
+
+  // runs after and for every render cycle
+  useEffect(() => {
+    fetch('https://react-hooks-58945.firebaseio.com/ingredients.json')
+      .then(response => {
+        return response.json()
+      }).then(responseData => {
+        const loadedIngredients = []
+        for (const key in responseData) {
+          loadedIngredients.push({
+            id: key,
+            title: responseData[key].title,
+            amount: responseData[key].amount
+          })
+        }
+        setIngredients(loadedIngredients)
+      })
+  }, []) // empty array of external dependencies as second argument causes it to act like componentDidMount()
+  // otherwise, when something is in the array that changes, it reruns.
+
+
 
   const addIngredientHandler = (ingredient) => {
     fetch('https://react-hooks-58945.firebaseio.com/ingredients.json', {
@@ -19,7 +40,6 @@ const Ingredients = () => {
     }).then(responseData => {
       setIngredients(prevIngs => [...prevIngs, { id: responseData.name, ...ingredient }])
     })
-
   }
 
   const removeIngredientHandler = (ingredientId) => {
