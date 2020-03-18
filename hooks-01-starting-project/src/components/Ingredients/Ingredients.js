@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 
 import IngredientForm from './IngredientForm'
 import IngredientList from './IngredientList'
@@ -26,7 +26,9 @@ const Ingredients = () => {
   }, []) // empty array of external dependencies as second argument causes it to act like componentDidMount()
   // otherwise, when something is in the array that changes, it reruns.
 
-
+  const filteredIngredientsHandler = useCallback((filteredIngs) => {
+    setIngredients(filteredIngs)
+  }, [])
 
   const addIngredientHandler = (ingredient) => {
     fetch('https://react-hooks-58945.firebaseio.com/ingredients.json', {
@@ -52,7 +54,7 @@ const Ingredients = () => {
       <IngredientForm onAddIngredient={addIngredientHandler} />
 
       <section>
-        <Search />
+        <Search onLoadIngredients={filteredIngredientsHandler} />
         <IngredientList ingredients={ingredients} onRemoveItem={(ingredientId) => removeIngredientHandler(ingredientId)} />
       </section>
     </div>
