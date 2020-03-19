@@ -6,6 +6,7 @@ import Search from './Search'
 
 const Ingredients = () => {
   const [ingredients, setIngredients] = useState([])
+  const [loading, setLoading] = useState(false)
 
   // useEffect runs after and for every render cycle
   // empty array of external dependencies as second argument causes useEffect to act like componentDidMount()
@@ -16,6 +17,7 @@ const Ingredients = () => {
   }, [])
 
   const addIngredientHandler = (ingredient) => {
+    setLoading(true)
     fetch('https://react-hooks-58945.firebaseio.com/ingredients.json', {
       method: 'POST',
       body: JSON.stringify(ingredient),
@@ -23,6 +25,7 @@ const Ingredients = () => {
         'Content-Type': 'application/json'
       }
     }).then(response => {
+      setLoading(false)
       return response.json()
     }).then(responseData => {
       setIngredients(prevIngs => [...prevIngs, { id: responseData.name, ...ingredient }])
@@ -30,17 +33,19 @@ const Ingredients = () => {
   }
 
   const removeIngredientHandler = (ingredientId) => {
+    setLoading(true)
     console.log(ingredientId)
     fetch(`https://react-hooks-58945.firebaseio.com/ingredients/${ingredientId}.json`, {
       method: 'DELETE'
     }).then(response => {
+      setLoading(false)
       setIngredients(prevIngs => prevIngs.filter(item => ingredientId !== item.id))
     })
   }
 
   return (
     <div className="App">
-      <IngredientForm onAddIngredient={addIngredientHandler} />
+      <IngredientForm onAddIngredient={addIngredientHandler} loading={loading} />
 
       <section>
         <Search onLoadIngredients={filteredIngredientsHandler} />
