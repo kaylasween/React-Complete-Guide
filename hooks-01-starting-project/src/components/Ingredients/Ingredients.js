@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 
+import ErrorModal from '../UI/ErrorModal'
 import IngredientForm from './IngredientForm'
 import IngredientList from './IngredientList'
 import Search from './Search'
@@ -7,6 +8,7 @@ import Search from './Search'
 const Ingredients = () => {
   const [ingredients, setIngredients] = useState([])
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState()
 
   // useEffect runs after and for every render cycle
   // empty array of external dependencies as second argument causes useEffect to act like componentDidMount()
@@ -40,11 +42,19 @@ const Ingredients = () => {
     }).then(response => {
       setLoading(false)
       setIngredients(prevIngs => prevIngs.filter(item => ingredientId !== item.id))
+    }).catch(error => {
+      setError("Something went wrong! " + error.message)
+      setLoading(false)
     })
+  }
+
+  const clearError = () => {
+    setError(null)
   }
 
   return (
     <div className="App">
+      {error && <ErrorModal onClose={clearError}>{error}</ErrorModal>}
       <IngredientForm onAddIngredient={addIngredientHandler} loading={loading} />
 
       <section>
