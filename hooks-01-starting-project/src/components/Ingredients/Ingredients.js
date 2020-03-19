@@ -1,12 +1,27 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useReducer, useState, useEffect, useCallback } from 'react'
 
 import ErrorModal from '../UI/ErrorModal'
 import IngredientForm from './IngredientForm'
 import IngredientList from './IngredientList'
 import Search from './Search'
 
+const ingredientReducer = (currentIngredients, action) => {
+  switch (action.type) {
+    case 'SET':
+      return action.ingredients
+    case 'ADD':
+      return [...currentIngredients, action.ingredient]
+    case 'DELETE':
+      return currentIngredients.filter(ingredient => ingredient.id !== action.id)
+    default:
+      throw new Error('needs to set, add, or delete')
+  }
+}
+
 const Ingredients = () => {
-  const [ingredients, setIngredients] = useState([])
+  const [ingredients, dispatch] = useReducer(ingredientReducer, [])
+
+  // const [ingredients, setIngredients] = useState([]) //replacing with useReducer
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState()
 
@@ -15,7 +30,8 @@ const Ingredients = () => {
   // otherwise, when something is in the array that changes, it reruns.
 
   const filteredIngredientsHandler = useCallback((filteredIngs) => {
-    setIngredients(filteredIngs)
+    // setIngredients(filteredIngs)
+    dispatch({ type: 'SET', ingredients: filteredIngs })
   }, [])
 
   const addIngredientHandler = (ingredient) => {
@@ -30,7 +46,8 @@ const Ingredients = () => {
       setLoading(false)
       return response.json()
     }).then(responseData => {
-      setIngredients(prevIngs => [...prevIngs, { id: responseData.name, ...ingredient }])
+      // setIngredients(prevIngs => [...prevIngs, { id: responseData.name, ...ingredient }])
+      dispatch({ type: 'ADD', ingredient: { id: responseData.name, ...ingredient } })
     })
   }
 
@@ -41,7 +58,8 @@ const Ingredients = () => {
       method: 'DELETE'
     }).then(response => {
       setLoading(false)
-      setIngredients(prevIngs => prevIngs.filter(item => ingredientId !== item.id))
+      // setIngredients(prevIngs => prevIngs.filter(item => ingredientId !== item.id))
+      dispatch({ type: 'DELETE', id: ingredientId })
     }).catch(error => {
       setError("Something went wrong! " + error.message)
       setLoading(false)
