@@ -1,4 +1,4 @@
-import React, { useReducer, useCallback } from 'react'
+import React, { useReducer, useCallback, useMemo } from 'react'
 
 import ErrorModal from '../UI/ErrorModal'
 import IngredientForm from './IngredientForm'
@@ -52,7 +52,7 @@ const Ingredients = () => {
     dispatchIngs({ type: 'SET', ingredients: filteredIngs })
   }, [])
 
-  const addIngredientHandler = (ingredient) => {
+  const addIngredientHandler = useCallback((ingredient) => {
     httpDispatch({ type: 'SEND' })
     // setLoading(true)
     fetch('https://react-hooks-58945.firebaseio.com/ingredients.json', {
@@ -69,9 +69,9 @@ const Ingredients = () => {
       // setIngredients(prevIngs => [...prevIngs, { id: responseData.name, ...ingredient }])
       dispatchIngs({ type: 'ADD', ingredient: { id: responseData.name, ...ingredient } })
     })
-  }
+  }, [])
 
-  const removeIngredientHandler = (ingredientId) => {
+  const removeIngredientHandler = useCallback((ingredientId) => {
     // setLoading(true)
     httpDispatch({ type: 'SEND' })
     console.log(ingredientId)
@@ -87,12 +87,21 @@ const Ingredients = () => {
       // setLoading(false)
       httpDispatch({ type: 'ERROR', errorMessage: error.message })
     })
-  }
+  }, [])
 
-  const clearError = () => {
+  const clearError = useCallback(() => {
     // setError(null)
     httpDispatch({ type: 'CLEAR' })
-  }
+  }, [])
+
+  /* use useMemo when something is getting rerendered that doesn't need to be, especially if that function is 
+     doing something a bit more computationally intensive. If it's a trivial component, it may be worth it to not 
+     use it */
+  const ingredientList = useMemo(() => {
+    return (
+      <IngredientList ingredients={ingredients} onRemoveItem={(ingredientId) => removeIngredientHandler(ingredientId)} />
+    )
+  }, [ingredients, removeIngredientHandler])
 
   return (
     <div className="App">
@@ -101,7 +110,7 @@ const Ingredients = () => {
 
       <section>
         <Search onLoadIngredients={filteredIngredientsHandler} />
-        <IngredientList ingredients={ingredients} onRemoveItem={(ingredientId) => removeIngredientHandler(ingredientId)} />
+        {ingredientList}
       </section>
     </div>
   )
