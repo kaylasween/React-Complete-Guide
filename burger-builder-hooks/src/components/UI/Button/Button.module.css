@@ -1,0 +1,41 @@
+.button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  outline: none;
+  cursor: pointer;
+  font: inherit;
+  padding: 1rem;
+  margin: 1rem;
+  font-weight: bold;
+}
+
+.button:first-of-type {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.success {
+  background-color: #5c9210;
+  color: black;
+}
+
+.danger {
+  background-color: #944317;
+  color: white;
+}
+
+.cta {
+  background-color: darkblue;
+  color: white;
+}
+
+.cancel {
+  background-color: lightgray;
+  color: black;
+}
+
+[disabled] {
+  background-color: grey;
+  cursor: not-allowed;
+}

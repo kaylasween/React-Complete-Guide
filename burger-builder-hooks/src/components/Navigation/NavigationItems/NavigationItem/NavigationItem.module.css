@@ -1,0 +1,51 @@
+.navitem {
+  margin: 1rem 0;
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+}
+
+.navitem a {
+  color: #8F5C2C;
+  text-decoration: none;
+  width: 100%;
+  border-bottom: 4px solid transparent;
+  box-sizing: border-box;
+  display: block;
+}
+
+.navitem a:hover, 
+.navitem a:focus,
+.navitem a:active,
+.navitem a.active {
+  background-color: #8F5C2C;
+  border-bottom: 4px solid #40A4C8;
+  color: white;
+}
+
+@media(min-width: 500px) {
+  .navitem {
+    margin: 0;
+    box-sizing: border-box;
+    display: flex;
+    height: 100%;
+    width: auto;
+    align-items: center;
+  }
+  
+  .navitem a {
+    color: white;
+    height: 100%;
+    padding: 1rem 10px;
+    border-bottom: 4px solid transparent;
+  }
+  
+  .navitem a:hover, 
+  .navitem a:focus,
+  .navitem a:active,
+  .navitem a.active {
+    background-color: #8F5C2C;
+    border-bottom: 4px solid #40A4C8;
+    color: white;
+  }  
+}
