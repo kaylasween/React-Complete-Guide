@@ -11,7 +11,7 @@ import { checkValidity, updateObject } from '../../shared/utility'
 import styles from './Auth.module.css'
 
 const auth = (props) => {
-  const [controls, setControls] = useState({
+  const [authForm, setAuthForm] = useState({
     email: {
       elementType: 'input',
       elementConfig: {
@@ -50,20 +50,20 @@ const auth = (props) => {
   }, [])
 
   const inputChangedHandler = (event, controlName) => {
-    const updatedAuthForm = updateObject(controls, {
-      [controlName]: updateObject(controls[controlName], {
+    const updatedAuthForm = updateObject(authForm, {
+      [controlName]: updateObject(authForm[controlName], {
         value: event.target.value,
-        valid: checkValidity(event.target.value, controls[controlName].validation),
+        valid: checkValidity(event.target.value, authForm[controlName].validation),
         touched: true
       })
     })
 
-    setControls(updatedAuthForm)
+    setAuthForm(updatedAuthForm)
   }
 
   const submitHandler = (event) => {
     event.preventDefault()
-    props.onAuth(controls.email.value, controls.password.value, isSignUp)
+    props.onAuth(authForm.email.value, authForm.password.value, isSignUp)
   }
 
   const switchAuthModeHandler = () => {
@@ -71,10 +71,10 @@ const auth = (props) => {
   }
 
   const formElements = []
-  for (let key in controls) {
+  for (let key in authForm) {
     formElements.push({
       id: key,
-      config: controls[key]
+      config: authForm[key]
     })
   }
 
