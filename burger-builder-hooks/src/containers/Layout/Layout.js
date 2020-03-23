@@ -10,7 +10,7 @@ const layout = (props) => {
 
   const [showSideDrawer, setShowSideDrawer] = useState(false)
 
-  sideDrawerToggleHandler = () => {
+  const sideDrawerToggleHandler = () => {
     setShowSideDrawer((previousState) => {
       return { showSideDrawer: !previousState.showSideDrawer }
     })
@@ -33,4 +33,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(Layout)
+export default connect(mapStateToProps)(layout)

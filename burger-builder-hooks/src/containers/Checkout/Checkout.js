@@ -7,11 +7,11 @@ import ContactData from './ContactData/ContactData'
 
 const checkout = (props) => {
 
-  checkoutCancelledHandler = () => {
+  const checkoutCancelledHandler = () => {
     props.history.goBack()
   }
 
-  checkoutContinuedHandler = () => {
+  const checkoutContinuedHandler = () => {
     props.history.replace('/checkout/contact-data')
   }
 
@@ -40,4 +40,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(Checkout)
+export default connect(mapStateToProps)(checkout)
