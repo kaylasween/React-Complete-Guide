@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import axios from '../../../axios-orders'
 
@@ -12,167 +12,166 @@ import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
 import * as actions from '../../../store/actions/index'
 import { checkValidity, updateObject } from '../../../shared/utility'
 
-class ContactData extends Component {
-  state = {
-    orderForm: {
-      name: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'text'
-        },
-        value: '',
-        label: 'Name',
-        validation: {
-          required: true
-        },
-        valid: false,
-        touched: false
+const contactData = (props) => {
+  const [orderForm, setOrderForm] = useState({
+    name: {
+      elementType: 'input',
+      elementConfig: {
+        type: 'text'
       },
-      address: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'text'
-        },
-        value: '',
-        label: 'Street Address',
-        validation: {
-          required: true
-        },
-        valid: false,
-        touched: false
+      value: '',
+      label: 'Name',
+      validation: {
+        required: true
       },
-      zip: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'text'
-        },
-        value: '',
-        label: 'Postal Code',
-        validation: {
-          required: true,
-          minLength: 5,
-          maxLength: 5
-        },
-        valid: false,
-        touched: false
-      },
-      country: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'text'
-        },
-        value: '',
-        label: 'Country',
-        validation: {
-          required: true
-        },
-        valid: false,
-        touched: false
-      },
-      email: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'email'
-        },
-        value: '',
-        label: 'Email Address',
-        validation: {
-          required: true
-        },
-        valid: false,
-        touched: false
-      },
-      deliveryMethod: {
-        elementType: 'select',
-        elementConfig: {
-          options: ['fastest', 'cheapest']
-        },
-        value: 'fastest',
-        validation: {},
-        valid: true,
-        label: 'Delivery Method'
-      },
+      valid: false,
+      touched: false
     },
-    formValid: false
-  }
+    address: {
+      elementType: 'input',
+      elementConfig: {
+        type: 'text'
+      },
+      value: '',
+      label: 'Street Address',
+      validation: {
+        required: true
+      },
+      valid: false,
+      touched: false
+    },
+    zip: {
+      elementType: 'input',
+      elementConfig: {
+        type: 'text'
+      },
+      value: '',
+      label: 'Postal Code',
+      validation: {
+        required: true,
+        minLength: 5,
+        maxLength: 5
+      },
+      valid: false,
+      touched: false
+    },
+    country: {
+      elementType: 'input',
+      elementConfig: {
+        type: 'text'
+      },
+      value: '',
+      label: 'Country',
+      validation: {
+        required: true
+      },
+      valid: false,
+      touched: false
+    },
+    email: {
+      elementType: 'input',
+      elementConfig: {
+        type: 'email'
+      },
+      value: '',
+      label: 'Email Address',
+      validation: {
+        required: true
+      },
+      valid: false,
+      touched: false
+    },
+    deliveryMethod: {
+      elementType: 'select',
+      elementConfig: {
+        options: ['fastest', 'cheapest']
+      },
+      value: 'fastest',
+      validation: {},
+      valid: true,
+      label: 'Delivery Method'
+    },
+  })
 
-  orderHandler = event => {
+  const [formValid, setFormValid] = useState(false)
+
+
+  const orderHandler = (event) => {
     event.preventDefault()
 
     const formData = {}
 
-    for (let formElId in this.state.orderForm) {
-      formData[formElId] = this.state.orderForm[formElId].value
+    for (let formElId in orderForm) {
+      formData[formElId] = orderForm[formElId].value
     }
 
     const order = {
-      ingredients: this.props.ings,
-      price: this.props.price,
+      ingredients: props.ings,
+      price: props.price,
       orderData: formData,
-      userId: this.props.userId
+      userId: props.userId
     }
 
-    this.props.onOrderBurger(order, this.props.token)
+    props.onOrderBurger(order, props.token)
   }
 
-  inputChangedHandler = (event, inputId) => {
+  const inputChangedHandler = (event, inputId) => {
 
-    const updatedFormElement = updateObject(this.state.orderForm[inputId], {
+    const updatedFormElement = updateObject(orderForm[inputId], {
       value: event.target.value,
-      valid: checkValidity(event.target.value, this.state.orderForm[inputId].validation),
+      valid: checkValidity(event.target.value, orderForm[inputId].validation),
       touched: true
     })
 
-    const updatedOrderForm = updateObject(this.state.orderForm, {
+    const updatedOrderForm = updateObject(orderForm, {
       [inputId]: updatedFormElement
     })
 
-    let formValid = true
+    let formIsValid = true
     for (let inputId in updatedOrderForm) {
-      formValid = updatedOrderForm[inputId].valid && formValid
+      formIsValid = updatedOrderForm[inputId].valid && formIsValid
     }
 
-    this.setState({ orderForm: updatedOrderForm, formValid: formValid })
+    setOrderForm(updatedOrderForm)
+    setFormValid(formIsValid)
   }
 
-  render() {
-    const formElements = []
-    for (let key in this.state.orderForm) {
-      formElements.push({
-        id: key,
-        config: this.state.orderForm[key]
-      })
-    }
+  const formElements = []
+  for (let key in orderForm) {
+    formElements.push({
+      id: key,
+      config: orderForm[key]
+    })
+  }
 
-    return (
-      <div className={styles.contactData}>
-        <h2>Enter your contact data</h2>
-        {this.props.loading ? (
-          <Spinner />
-        ) : (
-            <form onSubmit={this.orderHandler}>
-              {formElements.map(formEl => (
-                <Input
-                  key={formEl.id}
-                  elementType={formEl.config.elementType}
-                  elementConfig={formEl.config.elementConfig}
-                  id={formEl.id}
-                  invalid={!formEl.config.valid}
-                  shouldValidate={formEl.config.validation}
-                  touched={formEl.config.touched}
-                  value={formEl.config.value}
-                  label={formEl.config.label}
-                  changed={(event) => this.inputChangedHandler(event, formEl.id)} />
-              ))}
+  return (
+    <div className={styles.contactData}>
+      <h2>Enter your contact data</h2>
+      {props.loading ? (
+        <Spinner />
+      ) : (
+          <form onSubmit={orderHandler}>
+            {formElements.map(formEl => (
+              <Input
+                key={formEl.id}
+                elementType={formEl.config.elementType}
+                elementConfig={formEl.config.elementConfig}
+                id={formEl.id}
+                invalid={!formEl.config.valid}
+                shouldValidate={formEl.config.validation}
+                touched={formEl.config.touched}
+                value={formEl.config.value}
+                label={formEl.config.label}
+                changed={(event) => inputChangedHandler(event, formEl.id)} />
+            ))}
 
-              <Button buttonType="cta" clicked={this.orderHandler} disabled={!this.state.formValid}>
-                ORDER
+            <Button buttonType="cta" clicked={orderHandler} disabled={!formValid}>
+              ORDER
               </Button>
-            </form>
-          )}
-      </div>
-    )
-  }
+          </form>
+        )}
+    </div>
+  )
 }
 
 const mapStateToProps = (state) => {
@@ -191,4 +190,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios))
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(contactData, axios))
