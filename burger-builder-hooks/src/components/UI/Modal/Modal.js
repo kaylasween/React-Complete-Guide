@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Backdrop from '../Backdrop/Backdrop'
 import styles from './Modal.module.css'
 
